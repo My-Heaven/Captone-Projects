@@ -1,3 +1,4 @@
+using Firebase.Auth;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -11,7 +12,6 @@ namespace UtNhanDrug_BE
 {
     public class Program
     {
-        //aaaaaaa
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
@@ -22,6 +22,8 @@ namespace UtNhanDrug_BE
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    // Port for http & https
+                    webBuilder.UseUrls("http://*;https://*");
                 });
     }
 }
