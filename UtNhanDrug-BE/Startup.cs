@@ -1,3 +1,5 @@
+using CorePush.Apple;
+using CorePush.Google;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Builder;
@@ -15,7 +17,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UtNhanDrug_BE.Configurations;
+using UtNhanDrug_BE.Models.FcmNoti;
 using UtNhanDrug_BE.Services.AuthenticationService;
+using UtNhanDrug_BE.Services.FcmNotificationService;
 
 namespace UtNhanDrug_BE
 {
@@ -55,6 +59,15 @@ namespace UtNhanDrug_BE
             services.RegisterSwaggerModule();
 
             services.AddScoped<IAuthenticationSvc, AuthenticationSvc>();
+
+            services.AddTransient<INotificationService, NotificationService>();
+            //register fcm service
+            services.AddHttpClient<FcmSender>();
+            services.AddHttpClient<ApnSender>();
+
+            // Register appsetting
+            var appSettingsSection = Configuration.GetSection("FcmNotification");
+            services.Configure<FcmNotificationSetting>(appSettingsSection);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
